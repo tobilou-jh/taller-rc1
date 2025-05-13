@@ -21,10 +21,10 @@ int leeropc() {
     return opc;
 }
 
-
 int validarEnteroPositivo() {
     int numero, val;
     do {
+        printf("Ingrese el tiempo en horas (entero positivo): ");
         val = scanf("%d", &numero);
         if (val != 1 || numero <= 0) {
             printf("Dato invalido. Ingrese un numero entero positivo.\n");
@@ -48,11 +48,11 @@ int validarCantidad() {
     return cantidad;
 }
 
-
 float validarFloatPositivo() {
     float numero;
     int val;
     do {
+        printf("Ingrese el recurso en dolares (decimal positivo): ");
         val = scanf("%f", &numero);
         if (val != 1 || numero <= 0) {
             printf("Dato invalido. Ingrese un numero decimal positivo.\n");

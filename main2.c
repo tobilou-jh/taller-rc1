@@ -95,20 +95,64 @@ int main()
             {
                 if (strcmp(nombres[i], nombre) == 0)
                 {
-                    printf("Producto encontrado. Ingrese los nuevos datos:\n");
-                    printf("Nuevo nombre: ");
-                    fflush(stdin);
-                    fgets(nombres[i], 50, stdin);
-                    lens(nombres[i]);
+                    printf("Producto encontrado. ¿Qué desea modificar?\n");
+                    printf("1. Nombre\n");
+                    printf("2. Cantidad demandada\n");
+                    printf("3. Tiempo de fabricación por unidad\n");
+                    printf("4. Recursos requeridos por unidad\n");
+                    printf("5. Modificar todo\n");
+                    printf("Seleccione una opción: ");
+                    int opcionEditar = leeropc();
 
-                    printf("Nueva cantidad demandada: ");
-                    demandas[i] = validarEnteroPositivo();
-                    printf("Nuevo tiempo de fabricación por unidad: ");
-                    tiemposProduccion[i] = validarEnteroPositivo();
-                    printf("Nuevos recursos requeridos por unidad: ");
-                    recursosRequeridos[i] = validarEnteroPositivo();
+                    switch (opcionEditar)
+                    {
+                    case 1:
+                        printf("Nuevo nombre: ");
+                        fflush(stdin);
+                        fgets(nombres[i], 50, stdin);
+                        lens(nombres[i]);
+                        printf("Nombre modificado exitosamente.\n");
+                        break;
+
+                    case 2:
+                        printf("Nueva cantidad demandada: ");
+                        demandas[i] = validarEnteroPositivo();
+                        printf("Cantidad demandada modificada exitosamente.\n");
+                        break;
+
+                    case 3:
+                        printf("Nuevo tiempo de fabricación por unidad: ");
+                        tiemposProduccion[i] = validarEnteroPositivo();
+                        printf("Tiempo de fabricación modificado exitosamente.\n");
+                        break;
+
+                    case 4:
+                        printf("Nuevos recursos requeridos por unidad: ");
+                        recursosRequeridos[i] = validarEnteroPositivo();
+                        printf("Recursos requeridos modificados exitosamente.\n");
+                        break;
+
+                    case 5:
+                        printf("Nuevo nombre: ");
+                        fflush(stdin);
+                        fgets(nombres[i], 50, stdin);
+                        lens(nombres[i]);
+
+                        printf("Nueva cantidad demandada: ");
+                        demandas[i] = validarEnteroPositivo();
+                        printf("Nuevo tiempo de fabricación por unidad: ");
+                        tiemposProduccion[i] = validarEnteroPositivo();
+                        printf("Nuevos recursos requeridos por unidad: ");
+                        recursosRequeridos[i] = validarEnteroPositivo();
+                        printf("Todos los datos del producto han sido modificados exitosamente.\n");
+                        break;
+
+                    default:
+                        printf("Opción no válida.\n");
+                        break;
+                    }
+
                     encontrado = 1;
-                    printf("Producto editado exitosamente.\n");
                     break;
                 }
             }
@@ -164,7 +208,7 @@ int main()
         {
             if (cantidadProductos == 0)
             {
-                printf("No hay productos registrados para calcular la producción.\n");
+                printf("No hay productos registrados para calcular la produccion.\n");
                 break;
             }
 
@@ -176,17 +220,17 @@ int main()
                 recursosTotales += demandas[i] * recursosRequeridos[i];
             }
 
-            printf("\n--- Resultados de Producción ---\n");
+            printf("\n--- Resultados de Produccion ---\n");
             printf("Tiempo total requerido: %d\n", tiempoTotal);
             printf("Recursos totales requeridos: %d\n", recursosTotales);
 
             if (tiempoTotal <= tiempoDisponible && recursosTotales <= recursosDisponibles)
             {
-                printf("La fábrica puede cumplir con la demanda.\n");
+                printf("La fabrica puede cumplir con la demanda.\n");
             }
             else
             {
-                printf("La fábrica NO puede cumplir con la demanda.\n");
+                printf("La fabrica NO puede cumplir con la demanda.\n");
             }
             break;
         }
@@ -196,7 +240,7 @@ int main()
             break;
 
         default:
-            printf("Opción no valida.\n");
+            printf("Opcion no valida.\n");
             break;
         }
     } while (opcion != 7);
