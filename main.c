@@ -20,6 +20,7 @@ int main (int argc, char *argv[]) {
         printf("Seleccione una opcion: ");
         
         scanf("%d", &opc);
+        fflush(stdin); // Limpiar el buffer de entrada
         switch(opc) {
             case 1:
                 printf("Ingrese el nombre de los productos\n");
@@ -27,6 +28,7 @@ int main (int argc, char *argv[]) {
                 for (int i = 0; i < 5; i++) {
                     printf("Producto %d: ", i + 1);
                     scanf("%s", productos[i]);
+                    fflush(stdin); // Limpiar el buffer de entrada
                 }
                 break;
             case 2:
@@ -36,8 +38,10 @@ int main (int argc, char *argv[]) {
                 for (int i = 0; i < 5; i++) {
                     printf("Producto %s - Tiempo de fabricacion: ", productos[i]);
                     scanf("%d", &tiempoFabricacion[i]);
+                    fflush(stdin); // Limpiar el buffer de entrada
                     printf("Producto %s - Recursos requeridos: ", productos[i]);
                     scanf("%d", &recursos[i]);
+                    fflush(stdin); // Limpiar el buffer de entrada
                 }
                 break;
             case 3:
@@ -46,6 +50,7 @@ int main (int argc, char *argv[]) {
                 for (int i = 0; i < 5; i++) {
                     printf("Demanda para el producto %s: ", productos[i]);
                     scanf("%d", &demanda[i]);
+                    fflush(stdin); // Limpiar el buffer de entrada
                 }
                 float tiempoTotal = 0;
                 for (int i = 0; i < 5; i++) {
@@ -66,8 +71,10 @@ int main (int argc, char *argv[]) {
                 float tiempoDisponible, recursosDisponibles;
                 printf("Ingrese el tiempo de produccion disponible: ");
                 scanf("%f", &tiempoDisponible);
+                fflush(stdin); // Limpiar el buffer de entrada
                 printf("Ingrese la cantidad de recursos disponibles: ");     
                 scanf("%f", &recursosDisponibles);
+                fflush(stdin); // Limpiar el buffer de entrada
                 if (tiempoTotal <= tiempoDisponible && recursosTotales <= recursosDisponibles) {
                     printf("La fabrica puede cumplir con la demanda.\n");
                 } else {
@@ -79,10 +86,12 @@ int main (int argc, char *argv[]) {
                 char nuevoNombre[20];
                 printf("Ingrese el nombre del producto a modificar: ");
                 scanf("%s", nuevoNombre);
+                fflush(stdin); // Limpiar el buffer de entrada
                 for (int i = 0; i < 5; i++) {
                     if (strcmp(productos[i], nuevoNombre) == 0) {
                         printf("Ingrese el nuevo nombre para el producto %s: ", productos[i]);
                         scanf("%s", productos[i]);
+                        fflush(stdin); // Limpiar el buffer de entrada
                         printf("Nombre modificado exitosamente.\n");
                         break;
                     } else {
@@ -95,12 +104,15 @@ int main (int argc, char *argv[]) {
                 char nombreProducto[20];
                 printf("Ingrese el nombre del producto a modificar: ");
                 scanf("%s", nombreProducto);
+                fflush(stdin); // Limpiar el buffer de entrada
                 for (int i = 0; i < 5; i++) {
                     if (strcmp(productos[i], nombreProducto) == 0) {
                         printf("Producto %s - Nuevo tiempo de fabricacion: ", productos[i]);
                         scanf("%f", &tiempoFabricacion[i]);
+                        fflush(stdin); // Limpiar el buffer de entrada
                         printf("Producto %s - Nuevos recursos requeridos: ", productos[i]);
                         scanf("%f", &recursos[i]);
+                        fflush(stdin); // Limpiar el buffer de entrada
                         printf("Datos modificados exitosamente.\n");
                         break;
                     } else {
@@ -113,6 +125,7 @@ int main (int argc, char *argv[]) {
                 char eliminarProducto[20];
                 printf("Ingrese el nombre del producto a eliminar: ");  
                 scanf("%s", eliminarProducto);
+                fflush(stdin); // Limpiar el buffer de entrada
                 for (int i = 0; i < 5; i++) {
                     if (strcmp(productos[i], eliminarProducto) == 0) {
                         strcpy(productos[i], productos[4]);
