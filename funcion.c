@@ -30,7 +30,7 @@ int validarEnteroPositivo() {
             fflush(stdin);
         }
     } while (val != 1 || numero <= 0);
-    
+
     return numero;
 }
 
@@ -45,18 +45,4 @@ int validarCantidad() {
     } while (val != 1 || cantidad <= 0);
 
     return cantidad;
-}
-
-float validarFloatPositivo() {
-    float numero;
-    int val;
-    do {
-        val = scanf("%f", &numero);
-        if (val != 1 || numero <= 0) {
-            printf("Dato invalido. Ingrese un numero decimal positivo.\n");
-            fflush(stdin);
-        }
-    } while (val != 1 || numero <= 0);
-    
-    return numero;
 }

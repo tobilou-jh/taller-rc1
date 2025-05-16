@@ -4,7 +4,6 @@
 void lens(char str[]);
 int leeropc();
 int validarEnteroPositivo();
-float validarFloatPositivo();
 int validarCantidad();
 
-#endif 
+#endif
