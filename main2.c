@@ -263,7 +263,8 @@ int main() {
                         printf("  - %s: %d\n", matNombres[i][m], matCants[i][m]);
                 }
                 break;
-            case 9: printf("Saliendo del programa.\n"); break;
+            case 9: printf("Saliendo del programa.\n"); 
+            break;
             default: printf("Opcion no valida.\n");
         }
     } while (opcion != 9);
