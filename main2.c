@@ -11,6 +11,17 @@ int main() {
     char recursosNombres[50][50];
     int recursosDisponibles[50], cantRecursosDisponibles = 0;
     int tiempoDisponible = 0, opcion;
+    int verifica, verifica2, verifica3 = 0;
+
+    // Punteros a los arreglos principales
+    char (*pNombres)[50] = nombres;
+    int *pDemandas = demandas;
+    int *pTiemposProduccion = tiemposProduccion;
+    char (*pMatNombres)[10][50] = matNombres;
+    int (*pMatCants)[10] = matCants;
+    int *pMatCount = matCount;
+    char (*pRecursosNombres)[50] = recursosNombres;
+    int *pRecursosDisponibles = recursosDisponibles;
 
     do {
         menufuncion();
@@ -18,6 +29,7 @@ int main() {
 
         switch(opcion) {
             case 1: {
+                verifica3 = 1;
                 int opRec;
                 do {
                     printf("\n--- Recursos disponibles en fabrica ---\n");
@@ -35,38 +47,39 @@ int main() {
                         lens(nombreRecurso);
                         int idx = -1;
                         for (int i = 0; i < cantRecursosDisponibles; i++)
-                            if (strcmp(recursosNombres[i], nombreRecurso) == 0) { idx = i; break; }
+                            if (strcmp(pRecursosNombres[i], nombreRecurso) == 0) { idx = i; break; }
                         if (idx == -1) {
-                            strcpy(recursosNombres[cantRecursosDisponibles], nombreRecurso);
+                            strcpy(pRecursosNombres[cantRecursosDisponibles], nombreRecurso);
                             printf("Ingrese la cantidad disponible: ");
-                            recursosDisponibles[cantRecursosDisponibles++] = validarEnteroPositivo();
+                            pRecursosDisponibles[cantRecursosDisponibles++] = validarEnteroPositivo();
                         } else {
                             printf("Ingrese la nueva cantidad disponible: ");
-                            recursosDisponibles[idx] = validarEnteroPositivo();
+                            pRecursosDisponibles[idx] = validarEnteroPositivo();
                         }
                     } else if (opRec == 2) {
                         printf("\nRecursos disponibles:\n");
                         for (int i = 0; i < cantRecursosDisponibles; i++)
-                            printf("  - %s: %d\n", recursosNombres[i], recursosDisponibles[i]);
+                            printf("  - %s: %d\n", pRecursosNombres[i], pRecursosDisponibles[i]);
                     }
                 } while (opRec != 3);
                 break;
             }
             case 2:
-                printf("Ingrese el tiempo de produccion disponible: ");
+                verifica2 = 1;
+                printf("Ingrese el tiempo de produccion disponible(Horas): ");
                 tiempoDisponible = validarEnteroPositivo();
                 break;
             case 3:
                 if (cantidadProductos >= 5) { printf("No se pueden agregar mas productos.\n"); break; }
                 printf("Ingrese el nombre del producto: ");
                 fflush(stdin);
-                fgets(nombres[cantidadProductos], 50, stdin);
-                lens(nombres[cantidadProductos]);
+                fgets(pNombres[cantidadProductos], 50, stdin);
+                lens(pNombres[cantidadProductos]);
                 printf("Ingrese la demanda: ");
-                demandas[cantidadProductos] = validarCantidad();
-                printf("Ingrese el tiempo de produccion por unidad: ");
-                tiemposProduccion[cantidadProductos] = validarEnteroPositivo();
-                matCount[cantidadProductos++] = 0;
+                pDemandas[cantidadProductos] = validarCantidad();
+                printf("Ingrese el tiempo de produccion por unidad(horas): ");
+                pTiemposProduccion[cantidadProductos] = validarEnteroPositivo();
+                pMatCount[cantidadProductos++] = 0;
                 printf("Producto agregado exitosamente.\n");
                 break;
             case 4: {
@@ -75,10 +88,10 @@ int main() {
                 fflush(stdin); fgets(nombre, 50, stdin); lens(nombre);
                 int encontrado = 0;
                 for (int i = 0; i < cantidadProductos; i++) {
-                    if (strcmp(nombres[i], nombre) == 0) {
-                        printf("Nuevo nombre: "); fflush(stdin); fgets(nombres[i], 50, stdin); lens(nombres[i]);
-                        printf("Nueva demanda: "); demandas[i] = validarCantidad();
-                        printf("Nuevo tiempo de produccion por unidad: "); tiemposProduccion[i] = validarEnteroPositivo();
+                    if (strcmp(pNombres[i], nombre) == 0) {
+                        printf("Nuevo nombre: "); fflush(stdin); fgets(pNombres[i], 50, stdin); lens(pNombres[i]);
+                        printf("Nueva demanda: "); pDemandas[i] = validarCantidad();
+                        printf("Nuevo tiempo de produccion por unidad(horas): "); pTiemposProduccion[i] = validarEnteroPositivo();
                         printf("Producto editado correctamente.\n"); encontrado = 1; break;
                     }
                 }
@@ -91,15 +104,15 @@ int main() {
                 fflush(stdin); fgets(nombre, 50, stdin); lens(nombre);
                 int encontrado = 0;
                 for (int i = 0; i < cantidadProductos; i++) {
-                    if (strcmp(nombres[i], nombre) == 0) {
+                    if (strcmp(pNombres[i], nombre) == 0) {
                         for (int j = i; j < cantidadProductos - 1; j++) {
-                            strcpy(nombres[j], nombres[j + 1]);
-                            demandas[j] = demandas[j + 1];
-                            tiemposProduccion[j] = tiemposProduccion[j + 1];
-                            matCount[j] = matCount[j + 1];
+                            strcpy(pNombres[j], pNombres[j + 1]);
+                            pDemandas[j] = pDemandas[j + 1];
+                            pTiemposProduccion[j] = pTiemposProduccion[j + 1];
+                            pMatCount[j] = pMatCount[j + 1];
                             for (int k = 0; k < 10; k++) {
-                                strcpy(matNombres[j][k], matNombres[j + 1][k]);
-                                matCants[j][k] = matCants[j + 1][k];
+                                strcpy(pMatNombres[j][k], pMatNombres[j + 1][k]);
+                                pMatCants[j][k] = pMatCants[j + 1][k];
                             }
                         }
                         cantidadProductos--;
@@ -111,36 +124,37 @@ int main() {
             }
             case 6: {
                 if (cantidadProductos == 0) { printf("No hay productos registrados.\n"); break; }
+                verifica=1;
                 char nombre[50]; printf("Ingrese el nombre del producto para gestionar materiales: ");
                 fflush(stdin); fgets(nombre, 50, stdin); lens(nombre);
                 int idx = -1;
                 for (int i = 0; i < cantidadProductos; i++)
-                    if (strcmp(nombres[i], nombre) == 0) { idx = i; break; }
+                    if (strcmp(pNombres[i], nombre) == 0) { idx = i; break; }
                 if (idx == -1) { printf("Producto no encontrado.\n"); break; }
                 int opMat;
                 do {
-                    printf("\n--- Materiales para %s ---\n", nombres[idx]);
+                    printf("\n--- Materiales para %s ---\n", pNombres[idx]);
                     menufuncion2();
                     opMat = leeropc();
                     switch(opMat) {
                         case 1:
-                            if (matCount[idx] >= 10) { printf("No se pueden agregar mas materiales a este producto.\n"); break; }
+                            if (pMatCount[idx] >= 10) { printf("No se pueden agregar mas materiales a este producto.\n"); break; }
                             printf("Ingrese el nombre del material: ");
-                            fflush(stdin); fgets(matNombres[idx][matCount[idx]], 50, stdin); lens(matNombres[idx][matCount[idx]]);
+                            fflush(stdin); fgets(pMatNombres[idx][pMatCount[idx]], 50, stdin); lens(pMatNombres[idx][pMatCount[idx]]);
                             printf("Ingrese la cantidad requerida: ");
-                            matCants[idx][matCount[idx]] = validarCantidad();
-                            matCount[idx]++;
+                            pMatCants[idx][pMatCount[idx]] = validarCantidad();
+                            pMatCount[idx]++;
                             printf("Material agregado.\n"); break;
                         case 2: {
-                            if (matCount[idx] == 0) { printf("No hay materiales para editar.\n"); break; }
+                            if (pMatCount[idx] == 0) { printf("No hay materiales para editar.\n"); break; }
                             char nombreMat[50]; printf("Ingrese el nombre del material a editar: ");
                             fflush(stdin); fgets(nombreMat, 50, stdin); lens(nombreMat);
                             int encontrado = 0;
-                            for (int m = 0; m < matCount[idx]; m++) {
-                                if (strcmp(matNombres[idx][m], nombreMat) == 0) {
+                            for (int m = 0; m < pMatCount[idx]; m++) {
+                                if (strcmp(pMatNombres[idx][m], nombreMat) == 0) {
                                     printf("Nuevo nombre: ");
-                                    fflush(stdin); fgets(matNombres[idx][m], 50, stdin); lens(matNombres[idx][m]);
-                                    printf("Nueva cantidad: "); matCants[idx][m] = validarCantidad();
+                                    fflush(stdin); fgets(pMatNombres[idx][m], 50, stdin); lens(pMatNombres[idx][m]);
+                                    printf("Nueva cantidad: "); pMatCants[idx][m] = validarCantidad();
                                     printf("Material editado.\n"); encontrado = 1; break;
                                 }
                             }
@@ -148,17 +162,17 @@ int main() {
                             break;
                         }
                         case 3: {
-                            if (matCount[idx] == 0) { printf("No hay materiales para eliminar.\n"); break; }
+                            if (pMatCount[idx] == 0) { printf("No hay materiales para eliminar.\n"); break; }
                             char nombreMat[50]; printf("Ingrese el nombre del material a eliminar: ");
                             fflush(stdin); fgets(nombreMat, 50, stdin); lens(nombreMat);
                             int encontrado = 0;
-                            for (int m = 0; m < matCount[idx]; m++) {
-                                if (strcmp(matNombres[idx][m], nombreMat) == 0) {
-                                    for (int n = m; n < matCount[idx] - 1; n++) {
-                                        strcpy(matNombres[idx][n], matNombres[idx][n+1]);
-                                        matCants[idx][n] = matCants[idx][n+1];
+                            for (int m = 0; m < pMatCount[idx]; m++) {
+                                if (strcmp(pMatNombres[idx][m], nombreMat) == 0) {
+                                    for (int n = m; n < pMatCount[idx] - 1; n++) {
+                                        strcpy(pMatNombres[idx][n], pMatNombres[idx][n+1]);
+                                        pMatCants[idx][n] = pMatCants[idx][n+1];
                                     }
-                                    matCount[idx]--;
+                                    pMatCount[idx]--;
                                     printf("Material eliminado.\n"); encontrado = 1; break;
                                 }
                             }
@@ -166,9 +180,9 @@ int main() {
                             break;
                         }
                         case 4:
-                            if (matCount[idx] == 0) printf("No hay materiales registrados para este producto.\n");
-                            else for (int m = 0; m < matCount[idx]; m++)
-                                printf("  - %s: %d\n", matNombres[idx][m], matCants[idx][m]);
+                            if (pMatCount[idx] == 0) printf("No hay materiales registrados para este producto.\n");
+                            else for (int m = 0; m < pMatCount[idx]; m++)
+                                printf("  - %s: %d\n", pMatNombres[idx][m], pMatCants[idx][m]);
                             break;
                         case 5: printf("Volviendo al menu principal...\n"); break;
                         default: printf("Opcion no valida.\n");
@@ -178,18 +192,21 @@ int main() {
             }
             case 7: {
                 if (cantidadProductos == 0) { printf("No hay productos registrados.\n"); break; }
+                if (cantRecursosDisponibles == 0) { printf("No hay recursos disponibles registrados.\n"); break; }
+                if (verifica2 == 0) { printf("No hay tiempo de produccion disponible registrado.\n"); break; }
+                if (verifica == 0) { printf("No hay materiales registrados.\n"); break; }
                 int tiempoTotal = 0, cantReqs = 0;
                 char reqNombres[50][50];
                 int reqCantidades[50] = {0};
                 for (int i = 0; i < cantidadProductos; i++) {
-                    tiempoTotal += demandas[i] * tiemposProduccion[i];
-                    for (int m = 0; m < matCount[i]; m++) {
+                    tiempoTotal += pDemandas[i] * pTiemposProduccion[i];
+                    for (int m = 0; m < pMatCount[i]; m++) {
                         int idx = -1;
                         for (int r = 0; r < cantReqs; r++)
-                            if (strcmp(reqNombres[r], matNombres[i][m]) == 0) { idx = r; break; }
-                        int totalMat = demandas[i] * matCants[i][m];
+                            if (strcmp(reqNombres[r], pMatNombres[i][m]) == 0) { idx = r; break; }
+                        int totalMat = pDemandas[i] * pMatCants[i][m];
                         if (idx == -1) {
-                            strcpy(reqNombres[cantReqs], matNombres[i][m]);
+                            strcpy(reqNombres[cantReqs], pMatNombres[i][m]);
                             reqCantidades[cantReqs] = totalMat;
                             cantReqs++;
                         } else {
@@ -205,7 +222,7 @@ int main() {
                     printf("   - %s: %d (disponible: ", reqNombres[r], reqCantidades[r]);
                     int disp = 0, found = 0;
                     for (int z = 0; z < cantRecursosDisponibles; z++)
-                        if (strcmp(reqNombres[r], recursosNombres[z]) == 0) { disp = recursosDisponibles[z]; found = 1; break; }
+                        if (strcmp(reqNombres[r], pRecursosNombres[z]) == 0) { disp = pRecursosDisponibles[z]; found = 1; break; }
                     printf("%d)\n", disp);
                     if (!found) puedeCumplir = 0;
                     if (reqCantidades[r] > disp) puedeCumplir = 0;
@@ -221,17 +238,17 @@ int main() {
                 printf("\n4. Cumplimiento de demanda por producto:\n");
                 for (int i = 0; i < cantidadProductos; i++) {
                     int puede = 1;
-                    int tiempoNecesario = demandas[i] * tiemposProduccion[i];
+                    int tiempoNecesario = pDemandas[i] * pTiemposProduccion[i];
                     if (tiempoNecesario > tiempoDisponible) puede = 0;
-                    for (int m = 0; m < matCount[i]; m++) {
-                        int req = demandas[i] * matCants[i][m];
+                    for (int m = 0; m < pMatCount[i]; m++) {
+                        int req = pDemandas[i] * pMatCants[i][m];
                         int disp = 0, found = 0;
                         for (int z = 0; z < cantRecursosDisponibles; z++)
-                            if (strcmp(matNombres[i][m], recursosNombres[z]) == 0) { disp = recursosDisponibles[z]; found = 1; break; }
+                            if (strcmp(pMatNombres[i][m], pRecursosNombres[z]) == 0) { disp = pRecursosDisponibles[z]; found = 1; break; }
                         if (!found) puede = 0;
                         if (req > disp) puede = 0;
                     }
-                    printf("   - %s: ", nombres[i]);
+                    printf("   - %s: ", pNombres[i]);
                     if (puede == 1)
                         printf("SI puede cumplir");
                     else
@@ -247,10 +264,10 @@ int main() {
                 if (cantidadProductos == 0) { printf("No hay productos registrados.\n"); break; }
                 for (int i = 0; i < cantidadProductos; i++) {
                     printf("\nProducto: %s\nDemanda: %d\nTiempo por unidad: %d\nMateriales:\n",
-                        nombres[i], demandas[i], tiemposProduccion[i]);
-                    if (matCount[i] == 0) printf("  (Sin materiales)\n");
-                    else for (int m = 0; m < matCount[i]; m++)
-                        printf("  - %s: %d\n", matNombres[i][m], matCants[i][m]);
+                        pNombres[i], pDemandas[i], pTiemposProduccion[i]);
+                    if (pMatCount[i] == 0) printf("  (Sin materiales)\n");
+                    else for (int m = 0; m < pMatCount[i]; m++)
+                        printf("  - %s: %d\n", pMatNombres[i][m], pMatCants[i][m]);
                 }
                 break;
             case 9: printf("Saliendo del programa.\n"); 
