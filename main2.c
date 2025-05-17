@@ -13,17 +13,7 @@ int main() {
     int tiempoDisponible = 0, opcion;
 
     do {
-        printf("\n--- Menu ---\n");
-        printf("1. Gestionar recursos disponibles (materiales en fabrica)\n");
-        printf("2. Ingresar tiempo de produccion disponible\n");
-        printf("3. Agregar producto\n");
-        printf("4. Editar producto\n");
-        printf("5. Eliminar producto\n");
-        printf("6. Gestionar materiales de un producto\n");
-        printf("7. Calcular produccion\n");
-        printf("8. Mostrar productos y materiales\n");
-        printf("9. Salir\n");
-        printf("Seleccione una opcion: ");
+        menufuncion();
         opcion = leeropc();
 
         switch(opcion) {
@@ -130,7 +120,7 @@ int main() {
                 int opMat;
                 do {
                     printf("\n--- Materiales para %s ---\n", nombres[idx]);
-                    printf("1. Agregar material\n2. Editar material\n3. Eliminar material\n4. Ver materiales\n5. Volver\nSeleccione una opcion: ");
+                    menufuncion2();
                     opMat = leeropc();
                     switch(opMat) {
                         case 1:

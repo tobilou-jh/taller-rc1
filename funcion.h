@@ -5,5 +5,7 @@ void lens(char str[]);
 int leeropc();
 int validarEnteroPositivo();
 int validarCantidad();
+void menufuncion();
+void menufuncion2();
 
 #endif
