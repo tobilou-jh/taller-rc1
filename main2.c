@@ -410,14 +410,18 @@ int main()
 
         if (puede) {
             printf("   - %s: SI puede cumplir | Tiempo requerido: %d\n", pNombres[i], tiempoNecesario);
-
             // 🔹 Ahora el stock de materiales se reduce después de la producción
-            for (int m = 0; m < pMatCount[i]; m++) {
-                int req = pDemandas[i] * pMatCants[i][m];
-                for (int z = 0; z < cantRecursosDisponibles; z++) {
-                    if (strcmp(pMatNombres[i][m], pRecursosNombres[z]) == 0) {
-                        pRecursosDisponibles[z] -= req;  // 🔹 Se descuenta el stock de materiales usados
-                        break;
+            printf("Desea confirmar el pedido? (1: SI, 2: NO): ");
+            int descontar;
+            descontar = leeropc();
+            if( descontar == 1) {
+                for (int m = 0; m < pMatCount[i]; m++) {
+                    int req = pDemandas[i] * pMatCants[i][m];
+                    for (int z = 0; z < cantRecursosDisponibles; z++) {
+                        if (strcmp(pMatNombres[i][m], pRecursosNombres[z]) == 0) {
+                            pRecursosDisponibles[z] -= req;  // 🔹 Se descuenta el stock de materiales usados
+                            break;
+                        }
                     }
                 }
             }
@@ -426,7 +430,7 @@ int main()
 
     // 🔹 Restablecimiento de stock con el mensaje original
     int subop;
-    printf("\n5. ¿Desea reabastecer recursos? (1: SI, 2: NO): ");
+    printf("\n5. Desea reabastecer recursos? (1: SI, 2: NO): ");
     subop = leeropc();
     int opRec = 0;
     if (subop == 1) {
