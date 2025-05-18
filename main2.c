@@ -39,54 +39,66 @@ int main()
 
         switch (opcion)
         {
-      case 1: {
-    verifica3 = 1;
-    int opRec;
-    do {
-        printf("\n--- Recursos disponibles en fabrica ---\n");
-        printf("1. Agregar o modificar recurso\n2. Ver recursos\n3. Volver\nSeleccione una opcion: ");
-        opRec = leeropc();
-        if (opRec == 1) {
-            if (cantRecursosDisponibles >= 50) {
-                printf("No se pueden agregar mas tipos de recursos.\n");
-                continue;
-            }
-            char nombreRecurso[50];
-            printf("Ingrese el nombre del recurso: ");
-            fflush(stdin);
-            fgets(nombreRecurso, 50, stdin);
-            lens(nombreRecurso);
-            int idx = -1;
+        case 1:
+        {
+            verifica3 = 1;
+            int opRec;
+            do
+            {
+                printf("\n--- Recursos disponibles en fabrica ---\n");
+                printf("1. Agregar o modificar recurso\n2. Ver recursos\n3. Volver\nSeleccione una opcion: ");
+                opRec = leeropc();
+                if (opRec == 1)
+                {
+                    if (cantRecursosDisponibles >= 50)
+                    {
+                        printf("No se pueden agregar mas tipos de recursos.\n");
+                        continue;
+                    }
+                    char nombreRecurso[50];
+                    printf("Ingrese el nombre del recurso: ");
+                    fflush(stdin);
+                    fgets(nombreRecurso, 50, stdin);
+                    lens(nombreRecurso);
+                    int idx = -1;
 
-            for (int i = 0; i < cantRecursosDisponibles; i++)
-                if (strcmp(pRecursosNombres[i], nombreRecurso) == 0) { idx = i; break; }
+                    for (int i = 0; i < cantRecursosDisponibles; i++)
+                        if (strcmp(pRecursosNombres[i], nombreRecurso) == 0)
+                        {
+                            idx = i;
+                            break;
+                        }
 
-            if (idx == -1) {
-                strcpy(pRecursosNombres[cantRecursosDisponibles], nombreRecurso);
-                printf("Ingrese la cantidad disponible: ");
-                pRecursosDisponibles[cantRecursosDisponibles++] = validarEnteroPositivo();
-            } else {
-                printf("Ingrese el nuevo nombre del recurso (o presione Enter para mantenerlo): ");
-                char nuevoNombre[50];
-                fflush(stdin);
-                fgets(nuevoNombre, 50, stdin);
-                lens(nuevoNombre);
+                    if (idx == -1)
+                    {
+                        strcpy(pRecursosNombres[cantRecursosDisponibles], nombreRecurso);
+                        printf("Ingrese la cantidad disponible: ");
+                        pRecursosDisponibles[cantRecursosDisponibles++] = validarEnteroPositivo();
+                    }
+                    else
+                    {
+                        printf("Ingrese el nuevo nombre del recurso: ");
+                        char nuevoNombre[50];
+                        fflush(stdin);
+                        fgets(nuevoNombre, 50, stdin);
+                        lens(nuevoNombre);
 
-                if (strcmp(nuevoNombre, "") != 0) {  
-                    strcpy(pRecursosNombres[idx], nuevoNombre);  // 🔹 Reemplaza el nombre sin duplicarlo  
+                        strcpy(pRecursosNombres[idx], nuevoNombre);
+
+                        printf("Ingrese la cantidad adicional para el recurso: ");
+                        pRecursosDisponibles[idx] += validarEnteroPositivo();
+                    }
                 }
-
-                printf("Ingrese la cantidad adicional para el recurso: ");
-                pRecursosDisponibles[idx] += validarEnteroPositivo();
-            }
-        } else if (opRec == 2) {
-            printf("\nRecursos disponibles:\n");
-            for (int i = 0; i < cantRecursosDisponibles; i++)
-                printf("  - %s: %d\n", pRecursosNombres[i], pRecursosDisponibles[i]);
+                else if (opRec == 2)
+                {
+                    printf("\nRecursos disponibles:\n");
+                    for (int i = 0; i < cantRecursosDisponibles; i++)
+                        printf("  - %s: %d\n", pRecursosNombres[i], pRecursosDisponibles[i]);
+                }
+            } while (opRec != 3);
+            break;
         }
-    } while (opRec != 3);
-    break;
-}
+
         case 2:
             verifica2 = 1;
             printf("Ingrese el tiempo de produccion disponible(Horas): ");
@@ -109,50 +121,66 @@ int main()
             pMatCount[cantidadProductos++] = 0;
             printf("Producto agregado exitosamente.\n");
             break;
-      case 4: {
-    if (cantidadProductos == 0) { printf("No hay productos registrados.\n"); break; }
-    
-    char nombreProducto[50];
-    printf("Ingrese el nombre del producto a modificar: ");
-    fflush(stdin);
-    fgets(nombreProducto, 50, stdin);
-    lens(nombreProducto);
 
-    int idx = -1;
-    for (int i = 0; i < cantidadProductos; i++)
-        if (strcmp(pNombres[i], nombreProducto) == 0) { idx = i; break; }
+        case 4:
+        {
+            if (cantidadProductos == 0)
+            {
+                printf("No hay productos registrados.\n");
+                break;
+            }
 
-    if (idx == -1) {
-        printf("Producto no encontrado.\n");
-        break;
-    }
+            char nombreProducto[50];
+            printf("Ingrese el nombre del producto a modificar: ");
+            fflush(stdin);
+            fgets(nombreProducto, 50, stdin);
+            lens(nombreProducto);
 
-    printf("Ingrese el nuevo nombre del producto (o presione Enter para mantenerlo): ");
-    char nuevoNombre[50];
-    fflush(stdin);
-    fgets(nuevoNombre, 50, stdin);
-    lens(nuevoNombre);
+            int idx = -1;
+            for (int i = 0; i < cantidadProductos; i++)
+            {
+                if (strcmp(pNombres[i], nombreProducto) == 0)
+                {
+                    idx = i;
+                    break;
+                }
+            }
 
-    if (strcmp(nuevoNombre, "") != 0) {  
-        strcpy(pNombres[idx], nuevoNombre);  // 🔹 Se actualiza el nombre del producto  
-    }
+            if (idx == -1)
+            {
+                printf("Producto no encontrado.\n");
+                break;
+            }
 
-    printf("Ingrese la nueva demanda del producto: ");
-    pDemandas[idx] = validarEnteroPositivo();
+            char *pProducto = pNombres[idx];
+            int *pDemanda = &pDemandas[idx];
+            int *pTiempoProduccion = &pTiemposProduccion[idx];
 
-    printf("Ingrese el nuevo tiempo de produccion por unidad: ");
-    pTiemposProduccion[idx] = validarEnteroPositivo();
+            printf("Ingrese el nuevo nombre del producto: ");
+            char nuevoNombre[50];
+            fflush(stdin);
+            fgets(nuevoNombre, 50, stdin);
+            lens(nuevoNombre);
 
-    // 🔹 Si el nombre del producto cambia, actualizar materiales asociados
-    for (int i = 0; i < cantRecursosDisponibles; i++) {
-        if (strcmp(pMatNombres[idx][i], nombreProducto) == 0) {  
-            strcpy(pMatNombres[idx][i], nuevoNombre);  // 🔹 Se reemplaza el nombre del material  
+            strcpy(pProducto, nuevoNombre);
+
+            printf("Ingrese la nueva demanda del producto: ");
+            *pDemanda = validarEnteroPositivo();
+
+            printf("Ingrese el nuevo tiempo de produccion por unidad: ");
+            *pTiempoProduccion = validarEnteroPositivo();
+
+            for (int i = 0; i < cantRecursosDisponibles; i++)
+            {
+                if (strcmp(pMatNombres[idx][i], nombreProducto) == 0)
+                {
+                    strcpy(pMatNombres[idx][i], nuevoNombre);
+                }
+            }
+
+            printf("Producto actualizado correctamente.\n");
+            break;
         }
-    }
-
-    printf("Producto actualizado correctamente.\n");
-    break;
-}
 
         case 5:
         {
@@ -321,156 +349,220 @@ int main()
             } while (opMat != 5);
             break;
         }
-       case 7: {
-    if (cantidadProductos == 0) { printf("No hay productos registrados.\n"); break; }
-    if (cantRecursosDisponibles == 0) { printf("No hay recursos disponibles registrados.\n"); break; }
-    if (verifica2 == 0) { printf("No hay tiempo de produccion disponible registrado.\n"); break; }
-    if (verifica == 0) { printf("No hay materiales registrados.\n"); break; }
-
-    int tiempoTotal = 0, cantReqs = 0;
-    char reqNombres[50][50];
-    int reqCantidades[50] = {0};
-
-    // Calculo de tiempo total y materiales requeridos
-    for (int i = 0; i < cantidadProductos; i++) {
-        tiempoTotal += pDemandas[i] * pTiemposProduccion[i];
-        for (int m = 0; m < pMatCount[i]; m++) {
-            int idx = -1;
-            for (int r = 0; r < cantReqs; r++)
-                if (strcmp(reqNombres[r], pMatNombres[i][m]) == 0) { idx = r; break; }
-            int totalMat = pDemandas[i] * pMatCants[i][m];
-            if (idx == -1) {
-                strcpy(reqNombres[cantReqs], pMatNombres[i][m]);
-                reqCantidades[cantReqs] = totalMat;
-                cantReqs++;
-            } else {
-                reqCantidades[idx] += totalMat;
+        case 7:
+        {
+            if (cantidadProductos == 0)
+            {
+                printf("No hay productos registrados.\n");
+                break;
             }
-        }
-    }
-
-    int puedeCumplir = 1;
-    printf("\n--- Resultados de Produccion ---\n");
-    printf("1. El tiempo total de fabricacion requerido para cumplir con la demanda: %d\n", tiempoTotal);
-    printf("   El tiempo de produccion disponible: %d\n", tiempoDisponible);
-    printf("2. Recursos/materiales necesarios:\n");
-
-    for (int r = 0; r < cantReqs; r++) {
-        printf("   - %s: %d (disponible: ", reqNombres[r], reqCantidades[r]);
-        int disp = 0, found = 0;
-        for (int z = 0; z < cantRecursosDisponibles; z++)
-            if (strcmp(reqNombres[r], pRecursosNombres[z]) == 0) { disp = pRecursosDisponibles[z]; found = 1; break; }
-        printf("%d)\n", disp);
-        if (!found || reqCantidades[r] > disp) puedeCumplir = 0;
-    }
-
-    // Nueva validacion: Si al menos un producto no tiene materiales, la fabrica no puede cumplir
-    for (int i = 0; i < cantidadProductos; i++) {
-        if (pMatCount[i] == 0) {
-            puedeCumplir = 0;
-            break;
-        }
-    }
-
-    printf("3. ");
-    if (tiempoTotal > tiempoDisponible) puedeCumplir = 0;
-    if (puedeCumplir)
-        printf("La fabrica puede cumplir con la demanda total.\n");
-    else
-        printf("La fabrica NO puede cumplir con la demanda total.\n");
-
-    // Evaluacion de cada producto individualmente
-    printf("\n4. Cumplimiento de demanda por producto:\n");
-    for (int i = 0; i < cantidadProductos; i++) {
-        int puede = 1;
-
-        // Validacion de existencia de materiales
-        if (pMatCount[i] == 0) {
-            printf("   - %s: NO puede cumplir | Razon: No tiene materiales registrados.\n", pNombres[i]);
-            continue;
-        }
-
-        int tiempoNecesario = pDemandas[i] * pTiemposProduccion[i];
-        if (tiempoNecesario > tiempoDisponible) puede = 0;
-
-        for (int m = 0; m < pMatCount[i]; m++) {
-            int req = pDemandas[i] * pMatCants[i][m];
-            int disp = 0, found = 0;
-            for (int z = 0; z < cantRecursosDisponibles; z++)
-                if (strcmp(pMatNombres[i][m], pRecursosNombres[z]) == 0) { disp = pRecursosDisponibles[z]; found = 1; break; }
-
-            if (!found) {
-                printf("   - %s: NO puede cumplir | Razon: Falta el material %s.\n", pNombres[i], pMatNombres[i][m]);
-                puede = 0;
-            } else if (req > disp) {
-                printf("   - %s: NO puede cumplir | Razon: Insuficiente cantidad de %s.\n", pNombres[i], pMatNombres[i][m]);
-                puede = 0;
+            if (cantRecursosDisponibles == 0)
+            {
+                printf("No hay recursos disponibles registrados.\n");
+                break;
             }
-        }
+            if (verifica2 == 0)
+            {
+                printf("No hay tiempo de produccion disponible registrado.\n");
+                break;
+            }
+            if (verifica == 0)
+            {
+                printf("No hay materiales registrados.\n");
+                break;
+            }
 
-        if (puede) {
-            printf("   - %s: SI puede cumplir | Tiempo requerido: %d\n", pNombres[i], tiempoNecesario);
-            // 🔹 Ahora el stock de materiales se reduce después de la producción
-            printf("Desea confirmar el pedido? (1: SI, 2: NO): ");
-            int descontar;
-            descontar = leeropc();
-            if( descontar == 1) {
-                for (int m = 0; m < pMatCount[i]; m++) {
-                    int req = pDemandas[i] * pMatCants[i][m];
-                    for (int z = 0; z < cantRecursosDisponibles; z++) {
-                        if (strcmp(pMatNombres[i][m], pRecursosNombres[z]) == 0) {
-                            pRecursosDisponibles[z] -= req;  // 🔹 Se descuenta el stock de materiales usados
+            int tiempoTotal = 0, cantReqs = 0;
+            char reqNombres[50][50];
+            int reqCantidades[50] = {0};
+
+            // Calculo de tiempo total y materiales requeridos
+            for (int i = 0; i < cantidadProductos; i++)
+            {
+                tiempoTotal += pDemandas[i] * pTiemposProduccion[i];
+                for (int m = 0; m < pMatCount[i]; m++)
+                {
+                    int idx = -1;
+                    for (int r = 0; r < cantReqs; r++)
+                        if (strcmp(reqNombres[r], pMatNombres[i][m]) == 0)
+                        {
+                            idx = r;
                             break;
+                        }
+                    int totalMat = pDemandas[i] * pMatCants[i][m];
+                    if (idx == -1)
+                    {
+                        strcpy(reqNombres[cantReqs], pMatNombres[i][m]);
+                        reqCantidades[cantReqs] = totalMat;
+                        cantReqs++;
+                    }
+                    else
+                    {
+                        reqCantidades[idx] += totalMat;
+                    }
+                }
+            }
+
+            int puedeCumplir = 1;
+            printf("\n--- Resultados de Produccion ---\n");
+            printf("1. El tiempo total de fabricacion requerido para cumplir con la demanda: %d\n", tiempoTotal);
+            printf("   El tiempo de produccion disponible: %d\n", tiempoDisponible);
+            printf("2. Recursos/materiales necesarios:\n");
+
+            for (int r = 0; r < cantReqs; r++)
+            {
+                printf("   - %s: %d (disponible: ", reqNombres[r], reqCantidades[r]);
+                int disp = 0, found = 0;
+                for (int z = 0; z < cantRecursosDisponibles; z++)
+                    if (strcmp(reqNombres[r], pRecursosNombres[z]) == 0)
+                    {
+                        disp = pRecursosDisponibles[z];
+                        found = 1;
+                        break;
+                    }
+                printf("%d)\n", disp);
+                if (!found || reqCantidades[r] > disp)
+                    puedeCumplir = 0;
+            }
+
+            for (int i = 0; i < cantidadProductos; i++)
+            {
+                if (pMatCount[i] == 0)
+                {
+                    puedeCumplir = 0;
+                    break;
+                }
+            }
+
+            printf("3. ");
+            if (tiempoTotal > tiempoDisponible)
+                puedeCumplir = 0;
+            if (puedeCumplir)
+                printf("La fabrica puede cumplir con la demanda total.\n");
+            else
+                printf("La fabrica NO puede cumplir con la demanda total.\n");
+
+       
+            printf("\n4. Cumplimiento de demanda por producto:\n");
+            for (int i = 0; i < cantidadProductos; i++)
+            {
+                int puede = 1;
+
+                // Validacion de existencia de materiales
+                if (pMatCount[i] == 0)
+                {
+                    printf("   - %s: NO puede cumplir | Razon: No tiene materiales registrados.\n", pNombres[i]);
+                    continue;
+                }
+
+                int tiempoNecesario = pDemandas[i] * pTiemposProduccion[i];
+                if (tiempoNecesario > tiempoDisponible)
+                    puede = 0;
+
+                for (int m = 0; m < pMatCount[i]; m++)
+                {
+                    int req = pDemandas[i] * pMatCants[i][m];
+                    int disp = 0, found = 0;
+                    for (int z = 0; z < cantRecursosDisponibles; z++)
+                        if (strcmp(pMatNombres[i][m], pRecursosNombres[z]) == 0)
+                        {
+                            disp = pRecursosDisponibles[z];
+                            found = 1;
+                            break;
+                        }
+
+                    if (!found)
+                    {
+                        printf("   - %s: NO puede cumplir | Razon: Falta el material %s.\n", pNombres[i], pMatNombres[i][m]);
+                        puede = 0;
+                    }
+                    else if (req > disp)
+                    {
+                        printf("   - %s: NO puede cumplir | Razon: Insuficiente cantidad de %s.\n", pNombres[i], pMatNombres[i][m]);
+                        puede = 0;
+                    }
+                }
+
+                if (puede)
+                {
+                    printf("   - %s: SI puede cumplir | Tiempo requerido: %d\n", pNombres[i], tiempoNecesario);
+                    printf("Desea confirmar el pedido? (1: SI, 2: NO): ");
+                    int descontar;
+                    descontar = leeropc();
+                    if (descontar == 1)
+                    {
+                        for (int m = 0; m < pMatCount[i]; m++)
+                        {
+                            int req = pDemandas[i] * pMatCants[i][m];
+                            for (int z = 0; z < cantRecursosDisponibles; z++)
+                            {
+                                if (strcmp(pMatNombres[i][m], pRecursosNombres[z]) == 0)
+                                {
+                                    pRecursosDisponibles[z] -= req; 
+                                    break;
+                                }
+                            }
                         }
                     }
                 }
             }
-        }
-    }
-
-    // 🔹 Restablecimiento de stock con el mensaje original
-    int subop;
-    printf("\n5. Desea reabastecer recursos? (1: SI, 2: NO): ");
-    subop = leeropc();
-    int opRec = 0;
-    if (subop == 1) {
-        do {
-            printf("\n--- Reabastecimiento de recursos en fabrica ---\n");
-            printf("1. Reabastecer recurso existente\n2. Ver recursos\n3. Volver\nSeleccione una opcion: ");
-            opRec = leeropc();
-            if (opRec == 1) {
-                if (cantRecursosDisponibles == 0) {
-                    printf("No hay recursos para reabastecer.\n");
-                    continue;
-                }
-                char nombreRecurso[50];
-                printf("Ingrese el nombre del recurso a reabastecer: ");
-                fflush(stdin);
-                fgets(nombreRecurso, 50, stdin);
-                lens(nombreRecurso);
-                int idx = -1;
-                for (int i = 0; i < cantRecursosDisponibles; i++)
-                    if (strcmp(pRecursosNombres[i], nombreRecurso) == 0) { idx = i; break; }
-                if (idx == -1) {
-                    printf("Recurso no encontrado. Solo puede reabastecer recursos globales existentes.\n");
-                } else {
-                    printf("Ingrese la cantidad a agregar al stock: ");
-                    int cantidad = validarEnteroPositivo();
-                    pRecursosDisponibles[idx] += cantidad;
-                    printf("Stock actualizado. Nuevo total de %s: %d\n", pRecursosNombres[idx], pRecursosDisponibles[idx]);
-                }
-            } else if (opRec == 2) {
-                printf("\nRecursos disponibles:\n");
-                for (int i = 0; i < cantRecursosDisponibles; i++)
-                    printf("  - %s: %d\n", pRecursosNombres[i], pRecursosDisponibles[i]);
+            int subop;
+            printf("\n5. Desea reabastecer recursos? (1: SI, 2: NO): ");
+            subop = leeropc();
+            int opRec = 0;
+            if (subop == 1)
+            {
+                do
+                {
+                    printf("\n--- Reabastecimiento de recursos en fabrica ---\n");
+                    printf("1. Reabastecer recurso existente\n2. Ver recursos\n3. Volver\nSeleccione una opcion: ");
+                    opRec = leeropc();
+                    if (opRec == 1)
+                    {
+                        if (cantRecursosDisponibles == 0)
+                        {
+                            printf("No hay recursos para reabastecer.\n");
+                            continue;
+                        }
+                        char nombreRecurso[50];
+                        printf("Ingrese el nombre del recurso a reabastecer: ");
+                        fflush(stdin);
+                        fgets(nombreRecurso, 50, stdin);
+                        lens(nombreRecurso);
+                        int idx = -1;
+                        for (int i = 0; i < cantRecursosDisponibles; i++)
+                            if (strcmp(pRecursosNombres[i], nombreRecurso) == 0)
+                            {
+                                idx = i;
+                                break;
+                            }
+                        if (idx == -1)
+                        {
+                            printf("Recurso no encontrado. Solo puede reabastecer recursos globales existentes.\n");
+                        }
+                        else
+                        {
+                            printf("Ingrese la cantidad a agregar al stock: ");
+                            int cantidad = validarEnteroPositivo();
+                            pRecursosDisponibles[idx] += cantidad;
+                            printf("Stock actualizado. Nuevo total de %s: %d\n", pRecursosNombres[idx], pRecursosDisponibles[idx]);
+                        }
+                    }
+                    else if (opRec == 2)
+                    {
+                        printf("\nRecursos disponibles:\n");
+                        for (int i = 0; i < cantRecursosDisponibles; i++)
+                            printf("  - %s: %d\n", pRecursosNombres[i], pRecursosDisponibles[i]);
+                    }
+                } while (opRec != 3);
             }
-        } while (opRec != 3);
-    } else {
-        printf("No se reabasteceran recursos.\n");
-    }
+            else
+            {
+                printf("No se reabasteceran recursos.\n");
+            }
 
-    break;
-}
+            break;
+        }
 
         case 8:
             if (cantidadProductos == 0)
