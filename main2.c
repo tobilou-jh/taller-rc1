@@ -225,6 +225,7 @@ int main() {
                 int puedeCumplir = 1;
                 printf("\n--- Resultados de Produccion ---\n");
                 printf("1. El tiempo total de fabricacion requerido para cumplir con la demanda: %d\n", tiempoTotal);
+                printf("   El tiempo de produccion disponible: %d\n", tiempoDisponible);
                 printf("2. Recursos/materiales necesarios:\n");
                 for (int r = 0; r < cantReqs; r++) {
                     printf("   - %s: %d (disponible: ", reqNombres[r], reqCantidades[r]);
@@ -263,8 +264,47 @@ int main() {
                         printf("NO puede cumplir");
                     printf(" | Tiempo de produccion requerido: %d\n", tiempoNecesario);
                 }
-                printf("Si desea actulizar el stock de recursos selecione la opcion 1 del menu principal.\n");
-                printf("Si desea actulizar el tiempo de producion selecione la opcion 2 del menu principal.\n");
+                int subop;
+                printf("\n5. Desea reabastecer recursos? (1: SI, 2: NO): ");
+                subop = leeropc();
+                int opRec = 0;
+                if (subop == 1) {
+                    
+                    do {
+                        printf("\n--- Reabastecimiento de recursos en fabrica ---\n");
+                        printf("1. Reabastecer recurso existente\n2. Ver recursos\n3. Volver\nSeleccione una opcion: ");
+                        opRec = leeropc();
+                        if (opRec == 1) {
+                            if (cantRecursosDisponibles == 0) {
+                                printf("No hay recursos para reabastecer.\n");
+                                continue;
+                            }
+                            char nombreRecurso[50];
+                            printf("Ingrese el nombre del recurso a reabastecer: ");
+                            fflush(stdin);
+                            fgets(nombreRecurso, 50, stdin);
+                            lens(nombreRecurso);
+                            int idx = -1;
+                            for (int i = 0; i < cantRecursosDisponibles; i++)
+                                if (strcmp(pRecursosNombres[i], nombreRecurso) == 0) { idx = i; break; }
+                            if (idx == -1) {
+                                printf("Recurso no encontrado. Solo puede reabastecer recursos globales existentes.\n");
+                            } else {
+                                printf("Ingrese la cantidad a agregar al stock: ");
+                                int cantidad = validarEnteroPositivo();
+                                pRecursosDisponibles[idx] += cantidad;
+                                printf("Stock actualizado. Nuevo total de %s: %d\n", pRecursosNombres[idx], pRecursosDisponibles[idx]);
+                            }
+                        } else if (opRec == 2) {
+                            printf("\nRecursos disponibles:\n");
+                            for (int i = 0; i < cantRecursosDisponibles; i++)
+                                printf("  - %s: %d\n", pRecursosNombres[i], pRecursosDisponibles[i]);
+                        }
+                    } while (opRec != 3);
+
+                } else if(opRec == 2) {
+                    printf("No se reabasteceran recursos.\n");
+                }
                 
                 break;
             }
