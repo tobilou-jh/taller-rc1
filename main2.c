@@ -39,57 +39,54 @@ int main()
 
         switch (opcion)
         {
-        case 1:
-        {
-            verifica3 = 1;
-            int opRec;
-            do
-            {
-                printf("\n--- Recursos disponibles en fabrica ---\n");
-                printf("1. Agregar o modificar recurso\n2. Ver recursos\n3. Volver\nSeleccione una opcion: ");
-                opRec = leeropc();
-                if (opRec == 1)
-                {
-                    if (cantRecursosDisponibles >= 50)
-                    {
-                        printf("No se pueden agregar mas tipos de recursos.\n");
-                        continue;
-                    }
-                    char nombreRecurso[50];
-                    printf("Ingrese el nombre del recurso: ");
-                    fflush(stdin);
-                    fgets(nombreRecurso, 50, stdin);
-                    lens(nombreRecurso);
-                    int idx = -1;
-                    for (int i = 0; i < cantRecursosDisponibles; i++)
-                        if (strcmp(pRecursosNombres[i], nombreRecurso) == 0)
-                        {
-                            idx = i;
-                            break;
-                        }
+      case 1: {
+    verifica3 = 1;
+    int opRec;
+    do {
+        printf("\n--- Recursos disponibles en fabrica ---\n");
+        printf("1. Agregar o modificar recurso\n2. Ver recursos\n3. Volver\nSeleccione una opcion: ");
+        opRec = leeropc();
+        if (opRec == 1) {
+            if (cantRecursosDisponibles >= 50) {
+                printf("No se pueden agregar mas tipos de recursos.\n");
+                continue;
+            }
+            char nombreRecurso[50];
+            printf("Ingrese el nombre del recurso: ");
+            fflush(stdin);
+            fgets(nombreRecurso, 50, stdin);
+            lens(nombreRecurso);
+            int idx = -1;
 
-                    if (idx == -1)
-                    {
-                        strcpy(pRecursosNombres[cantRecursosDisponibles], nombreRecurso);
-                        printf("Ingrese la cantidad disponible: ");
-                        pRecursosDisponibles[cantRecursosDisponibles++] = validarEnteroPositivo();
-                    }
-                    else
-                    {
-                        printf("Ingrese la cantidad adicional para el recurso: ");
-                        pRecursosDisponibles[idx] += validarEnteroPositivo(); // 🔹 Suma en lugar de reemplazar
-                    }
+            for (int i = 0; i < cantRecursosDisponibles; i++)
+                if (strcmp(pRecursosNombres[i], nombreRecurso) == 0) { idx = i; break; }
+
+            if (idx == -1) {
+                strcpy(pRecursosNombres[cantRecursosDisponibles], nombreRecurso);
+                printf("Ingrese la cantidad disponible: ");
+                pRecursosDisponibles[cantRecursosDisponibles++] = validarEnteroPositivo();
+            } else {
+                printf("Ingrese el nuevo nombre del recurso (o presione Enter para mantenerlo): ");
+                char nuevoNombre[50];
+                fflush(stdin);
+                fgets(nuevoNombre, 50, stdin);
+                lens(nuevoNombre);
+
+                if (strcmp(nuevoNombre, "") != 0) {  
+                    strcpy(pRecursosNombres[idx], nuevoNombre);  // 🔹 Reemplaza el nombre sin duplicarlo  
                 }
-                else if (opRec == 2)
-                {
-                    printf("\nRecursos disponibles:\n");
-                    for (int i = 0; i < cantRecursosDisponibles; i++)
-                        printf("  - %s: %d\n", pRecursosNombres[i], pRecursosDisponibles[i]);
-                }
-            } while (opRec != 3);
-            break;
+
+                printf("Ingrese la cantidad adicional para el recurso: ");
+                pRecursosDisponibles[idx] += validarEnteroPositivo();
+            }
+        } else if (opRec == 2) {
+            printf("\nRecursos disponibles:\n");
+            for (int i = 0; i < cantRecursosDisponibles; i++)
+                printf("  - %s: %d\n", pRecursosNombres[i], pRecursosDisponibles[i]);
         }
-
+    } while (opRec != 3);
+    break;
+}
         case 2:
             verifica2 = 1;
             printf("Ingrese el tiempo de produccion disponible(Horas): ");
@@ -112,40 +109,51 @@ int main()
             pMatCount[cantidadProductos++] = 0;
             printf("Producto agregado exitosamente.\n");
             break;
-        case 4:
-        {
-            if (cantidadProductos == 0)
-            {
-                printf("No hay productos para editar.\n");
-                break;
-            }
-            char nombre[50];
-            printf("Ingrese el nombre del producto a editar: ");
-            fflush(stdin);
-            fgets(nombre, 50, stdin);
-            lens(nombre);
-            int encontrado = 0;
-            for (int i = 0; i < cantidadProductos; i++)
-            {
-                if (strcmp(pNombres[i], nombre) == 0)
-                {
-                    printf("Nuevo nombre: ");
-                    fflush(stdin);
-                    fgets(pNombres[i], 50, stdin);
-                    lens(pNombres[i]);
-                    printf("Nueva demanda: ");
-                    pDemandas[i] = validarCantidad();
-                    printf("Nuevo tiempo de produccion por unidad(horas): ");
-                    pTiemposProduccion[i] = validarEnteroPositivo();
-                    printf("Producto editado correctamente.\n");
-                    encontrado = 1;
-                    break;
-                }
-            }
-            if (!encontrado)
-                printf("Producto no encontrado.\n");
-            break;
+      case 4: {
+    if (cantidadProductos == 0) { printf("No hay productos registrados.\n"); break; }
+    
+    char nombreProducto[50];
+    printf("Ingrese el nombre del producto a modificar: ");
+    fflush(stdin);
+    fgets(nombreProducto, 50, stdin);
+    lens(nombreProducto);
+
+    int idx = -1;
+    for (int i = 0; i < cantidadProductos; i++)
+        if (strcmp(pNombres[i], nombreProducto) == 0) { idx = i; break; }
+
+    if (idx == -1) {
+        printf("Producto no encontrado.\n");
+        break;
+    }
+
+    printf("Ingrese el nuevo nombre del producto (o presione Enter para mantenerlo): ");
+    char nuevoNombre[50];
+    fflush(stdin);
+    fgets(nuevoNombre, 50, stdin);
+    lens(nuevoNombre);
+
+    if (strcmp(nuevoNombre, "") != 0) {  
+        strcpy(pNombres[idx], nuevoNombre);  // 🔹 Se actualiza el nombre del producto  
+    }
+
+    printf("Ingrese la nueva demanda del producto: ");
+    pDemandas[idx] = validarEnteroPositivo();
+
+    printf("Ingrese el nuevo tiempo de produccion por unidad: ");
+    pTiemposProduccion[idx] = validarEnteroPositivo();
+
+    // 🔹 Si el nombre del producto cambia, actualizar materiales asociados
+    for (int i = 0; i < cantRecursosDisponibles; i++) {
+        if (strcmp(pMatNombres[idx][i], nombreProducto) == 0) {  
+            strcpy(pMatNombres[idx][i], nuevoNombre);  // 🔹 Se reemplaza el nombre del material  
         }
+    }
+
+    printf("Producto actualizado correctamente.\n");
+    break;
+}
+
         case 5:
         {
             if (cantidadProductos == 0)
