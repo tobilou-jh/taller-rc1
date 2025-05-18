@@ -13,15 +13,23 @@ int main() {
     int tiempoDisponible = 0, opcion;
     int verifica, verifica2, verifica3 = 0;
 
-    // Punteros a los arreglos principales
-    char (*pNombres)[50] = nombres;
-    int *pDemandas = demandas;
-    int *pTiemposProduccion = tiemposProduccion;
-    char (*pMatNombres)[10][50] = matNombres;
-    int (*pMatCants)[10] = matCants;
-    int *pMatCount = matCount;
-    char (*pRecursosNombres)[50] = recursosNombres;
-    int *pRecursosDisponibles = recursosDisponibles;
+    // Declaraciones de punteros a los arreglos principales
+    char (*pNombres)[50];
+    int *pDemandas;
+    int *pTiemposProduccion;
+    char (*pMatNombres)[10][50];
+    int (*pMatCants)[10];
+    int *pMatCount;
+    char (*pRecursosNombres)[50];
+    int *pRecursosDisponibles;
+    pNombres = nombres;
+    pDemandas = demandas;
+    pTiemposProduccion = tiemposProduccion;
+    pMatNombres = matNombres;
+    pMatCants = matCants;
+    pMatCount = matCount;
+    pRecursosNombres = recursosNombres;
+    pRecursosDisponibles = recursosDisponibles;
 
     do {
         menufuncion();
