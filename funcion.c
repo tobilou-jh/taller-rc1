@@ -46,6 +46,21 @@ int validarCantidad() {
 
     return cantidad;
 }
+
+float validarDecimalPositivo() {
+    float numero;
+    int val;
+    do {
+        val = scanf("%f", &numero);
+        if (val != 1 || numero <= 0) {
+            printf("Dato invalido. Ingrese un numero decimal positivo.\n");
+            fflush(stdin);
+        }
+    } while (val != 1 || numero <= 0);
+
+    return numero;
+}
+
 void menufuncion() {
     printf("--Menu--\n");
     printf("1. Gestionar recursos disponibles\n");
@@ -58,6 +73,7 @@ void menufuncion() {
     printf("8. Salir\n");
     printf("Seleccione una opcion: ");
 }
+
 void menufuncion2() {
     printf("--Menu--\n");
     printf("1. Agregar material\n");

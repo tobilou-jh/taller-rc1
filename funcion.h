@@ -7,5 +7,6 @@ int validarEnteroPositivo();
 int validarCantidad();
 void menufuncion();
 void menufuncion2();
+float validarDecimalPositivo();
 
 #endif
