@@ -53,7 +53,7 @@ void menufuncion() {
     printf("3. Editar producto\n");
     printf("4. Eliminar producto\n");
     printf("5. Gestionar materiales de un producto\n");
-    printf("6. Calcular produccion\n");
+    printf("6. Ingreso del pedido y calcular produccion\n");
     printf("7. Mostrar productos y materiales\n");
     printf("8. Salir\n");
     printf("Seleccione una opcion: ");
