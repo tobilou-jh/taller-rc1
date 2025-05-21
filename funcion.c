@@ -49,14 +49,13 @@ int validarCantidad() {
 void menufuncion() {
     printf("--Menu--\n");
     printf("1. Gestionar recursos disponibles\n");
-    printf("2. Ingresar tiempo de produccion disponible\n");
-    printf("3. Agregar producto\n");
-    printf("4. Editar producto\n");
-    printf("5. Eliminar producto\n");
-    printf("6. Gestionar materiales de un producto\n");
-    printf("7. Calcular produccion\n");
-    printf("8. Mostrar productos y materiales\n");
-    printf("9. Salir\n");
+    printf("2. Agregar producto\n");
+    printf("3. Editar producto\n");
+    printf("4. Eliminar producto\n");
+    printf("5. Gestionar materiales de un producto\n");
+    printf("6. Calcular produccion\n");
+    printf("7. Mostrar productos y materiales\n");
+    printf("8. Salir\n");
     printf("Seleccione una opcion: ");
 }
 void menufuncion2() {
