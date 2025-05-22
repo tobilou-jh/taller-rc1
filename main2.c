@@ -162,7 +162,6 @@ int main()
             }
 
             char *pProducto = pNombres[idx];
-            int *pDemanda = &pDemandas[idx];
             float *pTiempoProduccion = &pTiemposProduccion[idx];
 
             printf("Ingrese el nuevo nombre del producto: ");
